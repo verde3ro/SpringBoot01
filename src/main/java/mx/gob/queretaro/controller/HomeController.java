@@ -11,6 +11,7 @@ public class HomeController {
 
 	@GetMapping
 	public String home(ModelMap model) {
+		model.addAttribute("page", "home");
 		model.addAttribute("message", "Bienvenid@ a Spring Boot 2");
 
 		return "home";
