@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Bootstrap CSS -->
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link rel="icon" th:href="@{/img/icon-48x48.png}">
+	<link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+	<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Spring Boot</title>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="#">Spring Boot</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarsExampleDefault"
+			aria-controls="navbarsExampleDefault" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item" th:classappend="${#strings.equals(page,'home')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')">
+					<a class="nav-link" th:href="@{/home}">Home</a>
+				</li>
+				<li class="nav-item" th:classappend="${#strings.equals(page,'city')} ? active : ''"  sec:authorize="hasAnyRole('ADMIN')">
+					<a class="nav-link" th:href="@{/ciudad/crear}">Ciudad</a>
+				</li>
+				<li class="nav-item" th:classappend="${#strings.equals(page,'list-city')} ? active : ''"  sec:authorize="hasAnyRole('ADMIN')">
+					<a class="nav-link" th:href="@{/ciudad/listado}">Listado - Ciudades</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/logout}">Cerrar Sesi&#243;n</a>
+				</li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0">
+				<input class="form-control mr-sm-2" type="text" placeholder="Search"
+					aria-label="Search">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</div>
+	</nav>
+	<main role="main" class="container">
+		<div class="starter-template">
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<div class="row" layout:fragment="body">
+			</div>
+		</div>
+	</main>
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<!-- Optional JavaScript -->
+	<th:block layout:fragment="script"></th:block>
+</body>
+</html>
