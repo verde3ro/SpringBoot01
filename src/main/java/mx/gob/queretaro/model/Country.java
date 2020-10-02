@@ -24,7 +24,7 @@ public class Country implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="country_id", unique=true, nullable=false)
-	private short countryId;
+	private Short countryId;
 	@Column(nullable=false, length=50)
 	private String country;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -37,27 +37,29 @@ public class Country implements Serializable {
 	public Country() {
 	}
 
-	public Country(short countryId, String country) {
+	public Country(Short countryId, String country) {
 		this.countryId = countryId;
 		this.country = country;
 	}
 
-	public Country(short countryId) {
+	public Country(Short countryId) {
 		this.countryId = countryId;
 	}
 
-	public Country(short countryId, String country, Date lastUpdate) {
+	public Country(Short countryId, String country, Date lastUpdate) {
 		this.countryId = countryId;
 		this.country = country;
 		this.lastUpdate = lastUpdate;
 	}
 
-	public long getCountryId() {
+	public Short getCountryId() {
 		return countryId;
 	}
-	public void setCountryId(short countryId) {
+
+	public void setCountryId(Short countryId) {
 		this.countryId = countryId;
 	}
+
 	public String getCountry() {
 		return country;
 	}

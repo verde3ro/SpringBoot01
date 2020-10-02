@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+	<title>Ciudad - Crear</title>
+</head>
+<body>
+	<div class="row" layout:fragment="body">
+		<form th:action="@{/ciudad/guardar}" method="POST">
+			<div class="form-group">
+				<label for="city">* Nombre ciudad:</label>
+				<input type="text" class="form-control" id="city" name="city" placeholder="Nombre de la ciudad">
+			</div>
+			<div class="form-group">
+				<label for="country">* País:</label>
+				<select id="countryId" name="countryId" class="form-control">
+					<option value="">Selecciona una opción</option>
+					<option th:each="country : ${countries}" th:value="${country.countryId}" th:text="${country.country}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="lastUpdate">* Fecha creación:</label>
+				<input type="date" class="form-control" id="lastUpdate" name="lastUpdate" placeholder="Fecha creaci&#243;n" />
+			</div>
+			<button type="submit" class="btn btn-primary">Crear</button>
+			<p>&nbsp;</p>
+			<div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}">
+			</div>
+		</form>
+	</div>
+</body>
+</html>

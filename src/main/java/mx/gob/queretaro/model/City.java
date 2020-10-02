@@ -43,7 +43,7 @@ public class City implements Serializable {
 	@JoinColumn(name="country_id", nullable=false)
 	private Country country;
 
-	public City(short cityId, String city, Date lastUpdate) {
+	public City(Short cityId, String city, Date lastUpdate) {
 		this.cityId = cityId;
 		this.city = city;
 		this.lastUpdate = lastUpdate;
@@ -52,11 +52,11 @@ public class City implements Serializable {
 	public City() {
 	}
 
-	public long getCityId() {
+	public Short getCityId() {
 		return cityId;
 	}
 
-	public void setCityId(short cityId) {
+	public void setCityId(Short cityId) {
 		this.cityId = cityId;
 	}
 

@@ -10,7 +10,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,6 +30,8 @@ public class CityController {
 
 	@GetMapping("crear")
 	public String create(ModelMap model) {
+		model.addAttribute("page", "city");
+
 		try {
 			List<Country> countries = countryService.obtenerTodos();
 
@@ -43,8 +44,9 @@ public class CityController {
 	}
 
 	@PostMapping("guardar")
-	public String save(ModelMap model, @Valid @ModelAttribute("cityform") CityRequest cityRequest,
+	public String save(ModelMap model, @Valid CityRequest cityRequest,
 			BindingResult result) {
+		model.addAttribute("page", "city");
 
 		try {
 			if (result.hasErrors()) {
