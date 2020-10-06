@@ -3,6 +3,9 @@ package mx.gob.queretaro.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +70,17 @@ public class CityServiceImpl implements ICityService {
 		} catch (Exception ex) {
 			log.error("Ocurrio un eror al guardar la ciudad", ex);
 			throw new InternalException("Ocurrio un eror al guardar la ciudad");
+		}
+	}
+
+	@Override
+	public Page<City> obtenerPaginacion(int limit, int offset, String order, String sort, String search)
+			throws InternalException {
+		try {
+			return cityRepository.findAll(PageRequest.of((offset / limit), limit, Sort.by(new Sort.Order((order.equals("asc")) ? Sort.Direction.ASC : Sort.Direction.DESC, sort))));
+		} catch (Exception ex) {
+			log.error("Ocurrio un eror al obtener la paginación de las ciudades", ex);
+			throw new InternalException("Ocurrio un eror al obtener la paginación de las ciudades");
 		}
 	}
 
