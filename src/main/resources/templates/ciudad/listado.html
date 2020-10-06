@@ -27,14 +27,15 @@
 				data-show-columns-toggle-all="true"
 				data-mobile-responsive="true"
 				data-pagination-v-align="both"
-				data-url="http://localhost:8989/springboot/ciudad/obtenerPaginacion">
+				data-url="http://localhost:8989/springboot/ciudad/obtenerPaginacion"
+				class="table table-striped">
 				<!--  data-height="700" -->
 				<thead>
 					<tr>
 						<th data-field="cityId" data-sortable="true">ID</th>
 						<th data-field="city" data-sortable="true">Ciudad</th>
 						<th data-field="lastUpdate" data-sortable="true" >Fecha Actualizaci&#243;n</th>
-						<th data-field="status" data-sortable="true">Estatus</th>
+						<th data-field="status" data-sortable="true" data-formatter="estatusFormatter">Estatus</th>
 					</tr>
 				</thead>
 			</table>
@@ -45,6 +46,8 @@
 	<script th:src="@{/js/bootstrap-table.min.js}" type="text/javascript"></script>
 	<script th:src="@{/js/bootstrap-table-es-MX.min.js}" type="text/javascript"></script>
 	<script th:src="@{/js/bootstrap-table-mobile.min.js}" type="text/javascript"></script>
+	<!-- Page -->
+	<script th:src="@{/js/ciudad/ciudad.js}" type="text/javascript"></script>
 	</th:block>
 </body>
 </html>

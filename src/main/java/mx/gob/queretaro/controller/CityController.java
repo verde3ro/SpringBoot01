@@ -80,4 +80,10 @@ public class CityController {
 
 	}
 
+	@GetMapping("listado")
+	public String listado(ModelMap model) {
+		model.addAttribute("page", "list-city");
+
+		return "ciudad/listado";
+	}
 }
