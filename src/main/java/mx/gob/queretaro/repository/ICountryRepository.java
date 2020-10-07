@@ -9,7 +9,10 @@ import mx.gob.queretaro.model.Country;
 
 public interface ICountryRepository extends JpaRepository<Country, Short> {
 
+
 	@Query("SELECT NEW Country(c.countryId, c.country) FROM Country c ORDER BY c.countryId ASC")
 	List<Country> obtenerTodos();
+
+	Country findByCountryIdAndCountry(Short id, String country);
 
 }

@@ -9,4 +9,8 @@ public interface ICountryService {
 
 	List<Country> obtenerTodos() throws InternalException;
 
+	List<Country> obtenerTodosOrdenadosPorId() throws InternalException;
+
+	Country obtenerPorIdYPais(Short id, String country) throws InternalException;
+
 }
