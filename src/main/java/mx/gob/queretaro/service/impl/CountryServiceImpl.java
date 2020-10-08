@@ -3,6 +3,8 @@ package mx.gob.queretaro.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,13 +47,38 @@ public class CountryServiceImpl implements ICountryService {
 	public Country obtenerPorIdYPais(Short id, String country) throws InternalException {
 		if (null != id && null != country && !country.trim().isEmpty()) {
 			try {
-				return countryRepository.findByCountryIdAndCountry(id, country);
+				return countryRepository.findByCountryIdAndCountryOrderByLastUpdate(id, country);
 			} catch (Exception ex) {
 				log.error(String.format("Ocurrio un error al obtener el país con el id y el nombre : %d - %s", id, country), ex);
 				throw new InternalException(String.format("Ocurrio un error al obtener el país con el id y el nombre : %d - %s", id, country));
 			}
 		} else {
 			throw new InternalException("El id del país y el nombre no deben ser nulos o vacíos");
+		}
+	}
+
+	@Override
+	public Country obtenerPorId(Short id) throws InternalException {
+		if (null != id) {
+			try {
+				return countryRepository.obtenerPorId(id);
+			} catch (Exception ex) {
+				log.error(String.format("Ocurrio un error al obtener el país con el id: %d ", id), ex);
+				throw new InternalException(String.format("Ocurrio un error al obtener el país con el id: %d", id));
+			}
+		} else {
+			throw new InternalException("El id del país no debe ser nulo o vacío");
+		}
+	}
+
+	@Override
+	public Page<Country> obtenerPaginacion(int limit, int offset, String order, String sort, String search)
+			throws InternalException {
+		try {
+			return countryRepository.obtenerPaginacion(search, PageRequest.of((offset / limit), limit, Sort.by(new Sort.Order((order.equals("asc")) ? Sort.Direction.ASC : Sort.Direction.DESC, sort))));
+		} catch (Exception ex) {
+			log.error("Ocurrio un eror al obtener la paginación de los paises", ex);
+			throw new InternalException("Ocurrio un eror al obtener la paginación de los paises");
 		}
 	}
 
