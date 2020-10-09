@@ -98,4 +98,20 @@ public class CountryRest {
 			return new ResponseEntity<>(paginacion, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@GetMapping(path = "obtenerSuma", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> obtenerSuma() {
+		Map<String, Object> resultado = new HashMap<>();
+
+		try {
+			resultado.put("estado", "exito");
+			resultado.put("datos", countryService.obtenerSuma());
+		} catch (InternalException ex) {
+			resultado.put("estado", "error");
+			resultado.put("datos", ex.getMessage());
+		}
+
+		return resultado;
+	}
+
 }

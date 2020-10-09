@@ -82,6 +82,16 @@ public class CountryServiceImpl implements ICountryService {
 		}
 	}
 
+	@Override
+	public Long obtenerSuma() throws InternalException {
+		try {
+			return countryRepository.obtenerSuma();
+		} catch (Exception ex) {
+			log.error("Ocurrio un eror al obtener la suma de los paises", ex);
+			throw new InternalException("Ocurrio un eror al obtener la suma de los paises");
+		}
+	}
+
 
 
 

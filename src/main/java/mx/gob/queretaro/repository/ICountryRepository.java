@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import mx.gob.queretaro.model.Country;
+import mx.gob.queretaro.response.CountryResponse;
 
 public interface ICountryRepository extends JpaRepository<Country, Short> {
 
@@ -25,4 +26,10 @@ public interface ICountryRepository extends JpaRepository<Country, Short> {
 			+ "CAST(c.countryId as string) LIKE CONCAT('%',:search,'%') OR UPPER(c.country) LIKE CONCAT('%',:search,'%')")
 	Page<Country> obtenerPaginacion(@Param("search") String search, Pageable pageable);
 
+	@Query("SELECT SUM(c.countryId) FROM Country c")
+	Long obtenerSuma();
+
+	@Query("SELECT NEW mx.gob.queretaro.response.CountryResponse(c1.countryId, c1.country, c2.cityId, c2.city) FROM Country c1 "
+			+ "JOIN c1.cities c2 WHERE c1.countryId = :countryId AND c2.cityId = :cityId")
+	CountryResponse obtenerPaisCiudadPorIdPaisYIdCiudad(@Param("countryId") Short countryId, @Param("cityId") Short cityId);
 }

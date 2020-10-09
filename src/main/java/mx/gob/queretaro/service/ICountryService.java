@@ -19,4 +19,6 @@ public interface ICountryService {
 
 	Page<Country> obtenerPaginacion(int limit, int offset, String order, String sort, String search) throws InternalException;
 
+	Long obtenerSuma() throws InternalException;
+
 }
