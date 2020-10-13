@@ -114,4 +114,37 @@ public class CountryRest {
 		return resultado;
 	}
 
+	@GetMapping(path = "obtenerPaisCiudadPorIdPaisYIdCiudad/{countryId}/{cityId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> obtenerPaisCiudadPorIdPaisYIdCiudad(
+			@PathVariable("countryId") Short countryId,
+			@PathVariable("cityId") Short cityId) {
+		Map<String, Object> resultado = new HashMap<>();
+
+		try {
+			resultado.put("estado", "exito");
+			resultado.put("datos", countryService.obtenerPaisCiudadPorIdPaisYIdCiudad(countryId, cityId));
+		} catch (InternalException ex) {
+			resultado.put("estado", "error");
+			resultado.put("datos", ex.getMessage());
+		}
+
+		return resultado;
+	}
+
+
+	@GetMapping(path = "obtenerNombrePaisPorPais/{country}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> obtenerNombrePaisPorPais(
+			@PathVariable("country") String country) {
+		Map<String, Object> resultado = new HashMap<>();
+
+		try {
+			resultado.put("estado", "exito");
+			resultado.put("datos", countryService.obtenerNombrePaisPorPais(country));
+		} catch (InternalException ex) {
+			resultado.put("estado", "error");
+			resultado.put("datos", ex.getMessage());
+		}
+
+		return resultado;
+	}
 }

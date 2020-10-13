@@ -32,4 +32,8 @@ public interface ICountryRepository extends JpaRepository<Country, Short> {
 	@Query("SELECT NEW mx.gob.queretaro.response.CountryResponse(c1.countryId, c1.country, c2.cityId, c2.city) FROM Country c1 "
 			+ "JOIN c1.cities c2 WHERE c1.countryId = :countryId AND c2.cityId = :cityId")
 	CountryResponse obtenerPaisCiudadPorIdPaisYIdCiudad(@Param("countryId") Short countryId, @Param("cityId") Short cityId);
+
+	@Query(value="SELECT country FROM country WHERE (country LIKE :country%) ORDER BY country_id DESC", nativeQuery = true) // Query nativo con el nombe de la tabla y campo
+	List<String> obtenerNombrePaisPorPais(@Param("country") String country);
+
 }

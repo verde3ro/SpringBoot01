@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import mx.gob.queretaro.exception.InternalException;
 import mx.gob.queretaro.model.Country;
 import mx.gob.queretaro.repository.ICountryRepository;
+import mx.gob.queretaro.response.CountryResponse;
 import mx.gob.queretaro.service.ICountryService;
 
 @Service
@@ -89,6 +90,34 @@ public class CountryServiceImpl implements ICountryService {
 		} catch (Exception ex) {
 			log.error("Ocurrio un eror al obtener la suma de los paises", ex);
 			throw new InternalException("Ocurrio un eror al obtener la suma de los paises");
+		}
+	}
+
+	@Override
+	public CountryResponse obtenerPaisCiudadPorIdPaisYIdCiudad(Short countryId, Short cityId) throws InternalException {
+		if (null != countryId && cityId != null) {
+			try {
+				return countryRepository.obtenerPaisCiudadPorIdPaisYIdCiudad(countryId, cityId);
+			} catch (Exception ex) {
+				log.error(String.format("Ocurrio un error al obtener el país con el id: %d y el id de ciudad: %d  ", countryId, cityId), ex);
+				throw new InternalException(String.format("Ocurrio un error al obtener el país con el id: %d y el id de ciudad: %d  ", countryId, cityId));
+			}
+		} else {
+			throw new InternalException("El id del país y el id de ciudad no debe ser nulos o vacíos");
+		}
+	}
+
+	@Override
+	public List<String> obtenerNombrePaisPorPais(String country) throws InternalException {
+		if (null != country) {
+			try {
+				return countryRepository.obtenerNombrePaisPorPais(country.trim());
+			} catch (Exception ex) {
+				log.error(String.format("Ocurrio un error al obtener los paises por el nombre: %s ", country), ex);
+				throw new InternalException(String.format("Ocurrio un error al obtener los paises por el nombre: %s ", country));
+			}
+		} else {
+			throw new InternalException("El nombre del país no debe ser nulo o vacío");
 		}
 	}
 
