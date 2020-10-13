@@ -1,5 +1,6 @@
 package mx.gob.queretaro.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import mx.gob.queretaro.exception.InternalException;
 import mx.gob.queretaro.model.Country;
 import mx.gob.queretaro.repository.ICountryRepository;
+import mx.gob.queretaro.request.CountryRequest;
 import mx.gob.queretaro.response.CountryResponse;
 import mx.gob.queretaro.service.ICountryService;
 
@@ -121,7 +123,29 @@ public class CountryServiceImpl implements ICountryService {
 		}
 	}
 
+	@Override
+	public Country guardar(CountryRequest countryRequest) throws InternalException {
+		if (null != countryRequest && null != countryRequest.getCountry() &&
+				!countryRequest.getCountry().trim().isEmpty()) {
+			try {
+				Country country = new Country();
+				country.setCountry(countryRequest.getCountry().trim());
+				country.setLastUpdate(new Date());
 
+				return countryRepository.save(country);
+			} catch (Exception ex) {
+				log.error("Ocurrio un error al guardar el país", ex);
+				throw new InternalException("Ocurrio un error al guardar el país");
+			}
+		} else {
+			throw new InternalException("El nombre del país no deben nulo o vacío");
+		}
+	}
 
+	@Override
+	public Country actualizar(CountryRequest countryRequest, Short id) throws InternalException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
