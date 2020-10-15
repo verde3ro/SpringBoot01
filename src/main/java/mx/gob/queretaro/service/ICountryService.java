@@ -31,4 +31,8 @@ public interface ICountryService {
 
 	Country actualizar(CountryRequest countryRequest, Short id) throws InternalException;
 
+	Country actualizarPais(Short id, String country) throws InternalException;
+
+	void borrar(Short id) throws InternalException;
+
 }

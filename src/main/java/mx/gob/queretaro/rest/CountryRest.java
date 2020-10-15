@@ -14,9 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -177,6 +179,73 @@ public class CountryRest {
 				resultado.put("estado", "error");
 				resultado.put("datos", mensaje);
 			}
+		} catch (InternalException ex) {
+			resultado.put("estado", "error");
+			resultado.put("datos", ex.getMessage());
+		}
+
+		return resultado;
+	}
+
+	@PutMapping(path = "/actualizar/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> actualizar(
+			@Valid @RequestBody CountryRequest countryRequest,
+			@PathVariable("countryId") Short countryId,
+			BindingResult errores) {
+		Map<String, Object> resultado = new HashMap<>();
+
+		try {
+			if (!errores.hasErrors()) {
+				resultado.put("estado", "exito");
+				resultado.put("datos", countryService.actualizar(countryRequest, countryId));
+			} else {
+				List<String> mensaje = new ArrayList<>();
+
+				errores.getFieldErrors().forEach(error ->
+				mensaje.add(error.getField().trim() + " "
+						+ error.getDefaultMessage().trim().replace("null", "nulo") + ".")
+						);
+
+				resultado.put("estado", "error");
+				resultado.put("datos", mensaje);
+			}
+		} catch (InternalException ex) {
+			resultado.put("estado", "error");
+			resultado.put("datos", ex.getMessage());
+		}
+
+		return resultado;
+	}
+
+	@PutMapping(path = "actualizarPais/{id}/{country}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> actualizarPais(
+			@PathVariable("id") Short id,
+			@PathVariable("country") String country
+			){
+		Map<String, Object> resultado = new HashMap<>();
+
+		try {
+			resultado.put("estado", "exito");
+			resultado.put("datos", countryService.actualizarPais(id, country));
+		} catch (InternalException ex) {
+			resultado.put("estado", "error");
+			resultado.put("datos", ex.getMessage());
+		}
+
+		return resultado;
+	}
+
+	@DeleteMapping(path = "borrar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> borrar(
+			@PathVariable("id") Short id
+			){
+		Map<String, Object> resultado = new HashMap<>();
+
+		try {
+			countryService.borrar(id);
+
+			resultado.put("estado", "exito");
+			resultado.put("datos", "Se borro con exito el id: " + id);
 		} catch (InternalException ex) {
 			resultado.put("estado", "error");
 			resultado.put("datos", ex.getMessage());

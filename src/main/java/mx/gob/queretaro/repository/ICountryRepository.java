@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -35,5 +36,13 @@ public interface ICountryRepository extends JpaRepository<Country, Short> {
 
 	@Query(value="SELECT country FROM country WHERE (country LIKE :country%) ORDER BY country_id DESC", nativeQuery = true) // Query nativo con el nombe de la tabla y campo
 	List<String> obtenerNombrePaisPorPais(@Param("country") String country);
+
+	@Modifying
+	@Query("UPDATE Country c SET c.country = :country WHERE c.countryId = :id")
+	Integer actualizarPais(@Param("id") Short id, @Param("country") String country);
+
+	@Modifying
+	@Query("DELETE FROM Country c WHERE c.countryId = :id")
+	Integer borrarPais(@Param("id") Short id);
 
 }

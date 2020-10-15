@@ -144,8 +144,59 @@ public class CountryServiceImpl implements ICountryService {
 
 	@Override
 	public Country actualizar(CountryRequest countryRequest, Short id) throws InternalException {
-		// TODO Auto-generated method stub
-		return null;
+		if (null != countryRequest && null != countryRequest.getCountry() &&
+				!countryRequest.getCountry().trim().isEmpty() && null != id) {
+			try {
+				Country country = countryRepository.findById(id).orElse(null); // Tomar encuenta para actualizaciones
+
+				if (null != country) {
+					country.setCountry(countryRequest.getCountry().trim());
+					country.setLastUpdate(new Date());
+
+					return countryRepository.save(country);
+				} else {
+					throw new InternalException(String.format("El país con el id %d no existe en base de datos", id));
+				}
+			} catch (Exception ex) {
+				log.error("Ocurrio un error al actualizar el país", ex);
+				throw new InternalException("Ocurrio un error al actualizar el país");
+			}
+		} else {
+			throw new InternalException("El nombre del país y el id del país no deben nulos o vacíos");
+		}
+	}
+
+	@Override
+	public Country actualizarPais(Short id, String country) throws InternalException {
+		if (id != null && country != null && !country.trim().isEmpty()) {
+			countryRepository.actualizarPais(id, country);
+
+			return countryRepository.findById(id).orElse(null);
+		} else {
+			throw new InternalException("El id del país y el país no deben ser nulos o vacíos");
+		}
+	}
+
+	@Override
+	public void borrar(Short id) throws InternalException {
+		if (null != id) {
+			try {
+				Country country = countryRepository.findById(id).orElse(null);
+
+				if (null != country) {
+					countryRepository.delete(country);
+				} else {
+					throw new InternalException("El id del país no existe en base de datos");
+				}
+			} catch (InternalException ex) {
+				throw ex;
+			} catch (Exception ex) {
+				log.error(String.format("Ocurrio un error al borrar el país con el id: %d ", id), ex);
+				throw new InternalException(String.format("Ocurrio un error al borrar el país con el id: %d", id));
+			}
+		} else {
+			throw new InternalException("El id del país no debe ser nulo o vacío");
+		}
 	}
 
 }
